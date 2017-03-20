@@ -1,0 +1,123 @@
+<div ng-controller="dmjoborderscontroller" id="dmjoborderscontroller" ng-init="onload()">
+<script src="assets/global/scripts/alljquery.js"></script>
+		<!-- BEGIN PAGE HEADER-->
+	<div class="sub-page-header">
+		<div class="page-bar">
+			<ul class="page-breadcrumb">
+				<li><a href="#/dashboard">Home</a> <i class="fa fa-circle"></i>
+				</li>
+				<li><span> DM Summary Report</span> <i class="fa fa-circle"></i></li>
+				<li><span>DM's Job Orders</span></li>
+			</ul>
+		</div>
+	</div>
+	<!-- END PAGE HEADER-->
+	<form name="AddCandidateForm" class="tab-form-demo" novalidate="" ng-submit="searchjoborder()">
+	
+			<div class="undermask" id="submitalstatus">
+			<div class="popupcont">
+				<div class="popuphead">
+					Submital Details <span class="pull-right" id="closebtn"><img
+						width="16" height="16"
+						src="assets/global/img/portlet-remove-icon-white.png"
+						class="ng-scope"></span>
+				</div>
+				<div id="viewsubmittalid"></div>
+			</div>
+		</div>
+		
+			<div class="undermask" id="submitaldelete">
+			<div class="popupcont">
+				<div class="popuphead">
+					Delete Submital <span class="pull-right" id="closebtndelete"><img
+						width="16" height="16"
+						src="assets/global/img/portlet-remove-icon-white.png"
+						class="ng-scope"></span>
+				</div>
+				<div id="deletesubmittal"></div>
+			</div>
+		</div>
+		
+		
+		<div class="row ">
+			<div class="col-md-12">
+
+				<div class="row fade-in-up">
+
+					<div class="">
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>Status</label>
+								<div class="multi">
+									<span class="blankmsg">Select</span> <input type="text"
+										class="ddbox form-control" readonly="readonly" id="status"><i
+										class="fa fa-caret-down" aria-hidden="true"></i> <span
+										class="errormsg">This field is required</span>
+									<ul class="ddlist">
+										<li><input type="checkbox" value="Open" checked="true">Open</li>
+										<li><input type="checkbox" value="Assigned"
+											checked="true">Assigned</li>
+										<li><input type="checkbox" value="Filled" checked="true">Filled</li>
+										<li><input type="checkbox" value="Closed" checked="true">Closed</li>
+										<li><input type="checkbox" value="Reopen" checked="true">Reopen</li>
+									</ul>
+								</div>
+
+							</div>
+						</div>
+	
+								<button type="submit" ng-click=" " class="btn btn-primary blue" style="margin-top: 24px;">
+									Search <i class="fa fa-search"></i>
+								</button>
+						
+								<button type="button" ng-disabled="(allJobOrdersList && allJobOrdersList.length == 0)" class="btn blue" ng-csv="exportAllJobOrdersList" ng-if="!(rsLoginUser.userRole === 'Recruiter')"
+									filename="alljoborders_{{currentDateWithTime | date:'MM-dd-yyyy hh:mm:ss a'}}.csv" ng-click="getTimeFnc();"
+									csv-header="['Id','Category','Priority','Status','Type','Title','Client','Location','Dm','Assigned To','UpdatedDate','Sbm','ActiveDays']"
+									charset="utf-8" style="margin-top: 24px;">
+									Export <i class="fa fa-upload" aria-hidden="true"></i>
+								</button>
+					</div>
+			</div>
+					<!-- Table -->
+					<div class="row fade-in-up table-scrollable">
+
+						<table id="table" data-filter-control="true"
+							ng-repeat="candidate in candidates"
+							bs-table-control="candidate.allJobOrderBsTableControl"
+							ng-show="jobOrderTable">
+							<thead>
+								<tr>
+									<th data-field="jobOrderId" data-sortable="true"
+										data-filter-control="input"></th>
+										<th data-field="category" data-sortable="true"></th>
+									<th data-field="priority" data-sortable="true"></th>
+									<th data-field="status" data-sortable="true"></th>
+									<th data-field="type" data-sortable="true"></th>
+									<th data-field="title" data-sortable="true"
+										data-filter-control="input"></th>
+									<th data-field="client" data-sortable="true"
+										data-filter-control="input"></th>
+									<th data-field="location" data-sortable="true"
+										data-filter-control="input"></th>
+									<th data-field="dm" data-sortable="true"
+										data-filter-control="input"></th>
+									<th data-field="assignedTo" data-sortable="true"></th>
+									<th data-field="updatedDate" data-sortable="true" data-sort-name="strUpdatedOn"></th>
+									<th data-field="sbm" data-sortable="true"></th>
+									<th data-field="activeDays" data-sortable="true"></th>
+									<th data-field="actions" data-formatter="operateFormatter"
+										data-events="operateEvents"></th>
+								</tr>
+							</thead>
+							<tbody>
+
+							</tbody>
+						</table>
+					</div>
+					<!-- End Table -->
+
+		</div>
+		</div>
+		</form>		
+	
+	</div>

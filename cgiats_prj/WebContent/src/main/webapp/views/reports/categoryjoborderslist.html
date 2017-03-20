@@ -1,0 +1,88 @@
+<div ng-controller="categoryjoborderscontroller" id="dmjoborderscontroller" ng-init="onload()">
+<script src="assets/global/scripts/alljquery.js"></script>
+		<!-- BEGIN PAGE HEADER-->
+	<div class="sub-page-header">
+		<div class="page-bar">
+			<ul class="page-breadcrumb">
+				<li><a href="#/dashboard">Home</a> <i class="fa fa-circle"></i>
+				</li>
+				<li><span> Job Category Report</span> <i class="fa fa-circle"></i></li>
+				<li><span>Job Orders</span></li>
+			</ul>
+		</div>
+	</div>
+	<!-- END PAGE HEADER-->
+	<form name="AddCandidateForm" class="tab-form-demo" novalidate="" ng-submit="searchjoborder()">
+	
+			<div class="undermask" id="submitalstatus">
+			<div class="popupcont">
+				<div class="popuphead">
+					Submital Details <span class="pull-right" id="closebtn"><img
+						width="16" height="16"
+						src="assets/global/img/portlet-remove-icon-white.png"
+						class="ng-scope"></span>
+				</div>
+				<div id="viewsubmittalid"></div>
+			</div>
+		</div>
+		
+			<div class="undermask" id="submitaldelete">
+			<div class="popupcont">
+				<div class="popuphead">
+					Delete Submital <span class="pull-right" id="closebtndelete"><img
+						width="16" height="16"
+						src="assets/global/img/portlet-remove-icon-white.png"
+						class="ng-scope"></span>
+				</div>
+				<div id="deletesubmittal"></div>
+			</div>
+		</div>
+		
+		
+		<div class="row ">
+			<div class="col-md-12">
+
+				
+					<!-- Table -->
+					<div class="row fade-in-up table-scrollable">
+
+						<table id="table" data-filter-control="true"
+							ng-repeat="candidate in candidates"
+							bs-table-control="candidate.allJobOrderBsTableControl"
+							ng-show="jobOrderTable">
+							<thead>
+								<tr>
+									<th data-field="jobOrderId" data-sortable="true"
+										data-filter-control="input"></th>
+										<th data-field="category" data-sortable="true"></th>
+									<th data-field="priority" data-sortable="true"></th>
+									<th data-field="status" data-sortable="true"></th>
+									<th data-field="type" data-sortable="true"></th>
+									<th data-field="title" data-sortable="true"
+										data-filter-control="input"></th>
+									<th data-field="client" data-sortable="true"
+										data-filter-control="input"></th>
+									<th data-field="location" data-sortable="true"
+										data-filter-control="input"></th>
+									<th data-field="dm" data-sortable="true"
+										data-filter-control="input"></th>
+									<th data-field="assignedTo" data-sortable="true"></th>
+									<th data-field="updatedDate" data-sortable="true" data-sort-name="strUpdatedOn"></th>
+									<th data-field="sbm" data-sortable="true"></th>
+									<th data-field="activeDays" data-sortable="true"></th>
+									<th data-field="actions" data-formatter="operateFormatter"
+										data-events="operateEvents"></th>
+								</tr>
+							</thead>
+							<tbody>
+
+							</tbody>
+						</table>
+					</div>
+					<!-- End Table -->
+
+		</div>
+		</div>
+		</form>		
+	
+	</div>

@@ -1,0 +1,452 @@
+<div ng-controller="customcategoryreportcontroller" ng-init="onload()">
+<!-- <script src="https://code.highcharts.com/modules/drilldown.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script> -->
+<link href="assets/layouts/layout/css/flip.css" rel="stylesheet" />
+<script src="assets/global/scripts/flip.js"></script>
+<style>
+.pagination li.active a
+{
+background-color:#bec9d2;
+border-color:#bec9d2;
+color:#000000;
+}
+.pagination li.active a:hover, .pagination li a:hover
+{
+background-color:#bec9d2;
+border-color:#bec9d2;
+color:#000000;
+}
+</style>
+
+<div class="sub-page-header">
+  <div class="page-bar">
+    <ul class="page-breadcrumb">
+         	<li><a href="#/dashboard" ng-if="!(rsLoginUser.userRole === 'IN_DM' || rsLoginUser.userRole === 'IN_Recruiter' || rsLoginUser.userRole === 'ATS_Executive')">Home</a> 
+				<a href="#/india_joborders/my_indiajobOrder" ng-if="(rsLoginUser.userRole === 'IN_DM' || rsLoginUser.userRole === 'IN_Recruiter')">Home</a>
+				<a href="#/candidates/missingData" ng-if="(rsLoginUser.userRole === 'ATS_Executive')">Home</a>
+				<i class="fa fa-circle"></i>
+				</li>
+      <li>
+        <span>Reports</span>
+        <i class="fa fa-circle"></i>
+      </li>
+      <li>
+        <span>Job Category Report</span>
+      </li>
+    </ul>
+    
+    
+    
+    <div class="tabsmain pull-right" style="margin-right:-50px;">
+<!-- <div data-tabname="onsite" data-click="tabitem" class="pull-left tabitem activetab">On Site</div> -->
+<!-- <div data-tabname="ofshore" data-click="tabitem" class="pull-left tabitem">Off Shore</div> -->
+<!-- <button id="usfilter" class="btn btn-primary blue" style="margin-left:15px;margin-right:-50px;" ng-click="showfilters()">Filters &nbsp;<i class="fa fa-filter" aria-hidden="true"></i></button>
+<button id="infilter" class="btn btn-primary blue" style="margin-left:15px;margin-right:-50px;" ng-click="showfiltersIN()">Filters &nbsp;<i class="fa fa-filter" aria-hidden="true"></i></button> -->
+<div class="clearboth"></div>
+</div>
+
+
+ 
+  </div>
+</div>
+
+
+
+
+<form role="form" novalidate="" ng-submit="getDmInfo()" >
+<div id="onsite">
+
+ <div class="row" >
+       <div class="form-group">
+      
+              <div class="col-md-12">
+             <div class="row">
+             <div class="col-md-3">
+              	<div class="form-group">
+                <label class="">Start Date</label>
+  				<div class="input-group datepick">
+                  <input type="text" class="form-control whitereadonly" uib-datepicker-popup="{{DateFormat}}" is-open="startDatePopup.opened" datepicker-options="startDateOptions" close-text="Close" alt-input-formats="altInputFormats" ng-model="jobcategory.startDate" ng-keyup="" readonly="true" />
+                  <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="startDateopen()"><i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+                </div>
+				</div>
+              </div>
+              
+              <div class="col-md-3">
+              	<div class="form-group">
+                <label class="">End Date</label>
+  					<div class="input-group">
+                  <input type="text"  class="form-control whitereadonly" uib-datepicker-popup="{{DateFormat}}" is-open="endDatePopup.opened" datepicker-options="endDateOptions" close-text="Close" alt-input-formats="altInputFormats" ng-model="jobcategory.endDate" ng-keyup="" readonly="true" />
+                  <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="endDateopen()"><i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+                </div>
+				</div>
+              </div>
+              
+              
+              
+              <div class="col-md-3">
+              	<div class="form-group">
+                <label class="">Status</label>
+  					<select class="form-control" required="" ng-model="jobcategory.status">
+                  <option value="">Select</option>
+                  <option value="All">All</option>
+                  <option value="Open">Open</option>
+                  <option value="Close">Closed</option>
+                  </select>
+				</div>
+              </div>
+              
+              
+              
+              
+              
+              <div class="col-md-3" style="margin-top: 25px;">
+							<div class="row">
+								<div class="col-md-2" >
+									<button type="submit" class="btn blue">
+										<i class="fa fa-search"></i> View
+									</button>
+								</div>
+							</div>
+						</div>
+              
+              
+              
+              </div>
+	
+				</div>
+      
+      	</div>
+      	 	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="col-md-12 bigdata">
+
+
+<div class="rdiv animated bounceIn delay-three marginspace relpostn top04" style="padding-right:32px;">
+<div class="rounddiv tooltipon">
+Category A
+<span class="totalcountbig">{{categoryData.a_total}}</span>
+</div>
+</div>
+
+
+
+
+
+<div class="rdiv animated bounceIn delay-four marginspace relpostn top03" style="padding-right:32px;">
+<div class="rounddiv tooltipon">
+Category B
+<span class="totalcountbig">{{categoryData.b_total}}</span>
+</div>
+</div>
+
+
+
+<div class="rdiv animated bounceIn delay-five marginspace relpostn top02" style="padding-right:32px;">
+<div class="rounddiv tooltipon">
+Category C
+<span class="totalcountbig">{{categoryData.c_total}}</span>
+</div>
+</div>
+
+
+
+
+
+<div class="rdiv animated bounceIn delay-five marginspace relpostn top02" style="padding-right:32px;">
+<div class="rounddiv tooltipon">
+Not Specified
+<span class="totalcountbig">{{categoryData.n_total}}</span>
+</div>
+</div>
+
+
+
+
+
+<div class="rdiv animated bounceIn delay-six marginspace relpostn top01">
+<div class="rounddiv startedcolor tooltipon">
+Total
+<span class="totalcountbig">{{categoryData.totalRecords}}</span>
+</div>
+</div>
+
+
+
+<div class="clearboth"></div>
+</div>
+ -->
+
+
+
+
+<div class = "row" >
+
+<b class="tblheading">Job Categories by Time Period</b>
+
+<div class="row fade-in-up table-scrollable" >
+<table class="custom-table">
+<thead>
+<tr>
+<th width="20%">Time Period</th>
+<th width="20%">A-Direct Customer/ Relationship</th>
+<th width="15%">B-VMS Portal</th>
+<th width="15%">C-Third Party</th>
+<th width="15%">Not Specified</th>
+<th width="15%">Total</th>
+<tr>
+</thead>
+</div>
+
+
+<tbody>
+
+<tr>
+<td class="ltcell">Below 30 Days</td>
+<td><label title="View Details" ng-click="viewcategorjoborders('30','A-Direct Customer/ Relationship')" ng-if="!(categoryData.a_30_less === 0)">{{categoryData.a_30_less}} ({{categoryData.a_30_less_ratio}}%)</label>
+<label  ng-if="(categoryData.a_30_less === 0)" class="remove_underline">{{categoryData.a_30_less}} ({{categoryData.a_30_less_ratio}}%)</label>
+</td>
+<td>
+<label title="View Details" ng-click="viewcategorjoborders('30','B-VMS Portal')" ng-if="!(categoryData.b_30_less === 0)">{{categoryData.b_30_less}} ({{categoryData.b_30_less_ratio}}%)</label>
+<label  ng-if="(categoryData.b_30_less === 0)" class="remove_underline">{{categoryData.b_30_less}} ({{categoryData.b_30_less_ratio}}%)</label>
+</td>
+<td>
+<label title="View Details" ng-click="viewcategorjoborders('30','C-Third Party')" ng-if="!(categoryData.c_30_less === 0)">{{categoryData.c_30_less}} ({{categoryData.c_30_less_ratio}}%)</label>
+<label  ng-if="(categoryData.c_30_less === 0)" class="remove_underline">{{categoryData.c_30_less}} ({{categoryData.c_30_less_ratio}}%)</label>
+</td>
+<td>
+<label title="View Details" ng-click="viewcategorjoborders('30','Not Specified')" ng-if="!(categoryData.n_30_less === 0)">{{categoryData.n_30_less}} ({{categoryData.n_30_less_ratio}}%)</label>
+<label  ng-if="(categoryData.n_30_less === 0)" class="remove_underline">{{categoryData.n_30_less}} ({{categoryData.n_30_less_ratio}}%)</label>
+</td>
+<td>
+<label title="View Details" ng-click="viewcategorjoborders('30','Total')" ng-if="!(categoryData.less_30_total === 0)">{{categoryData.less_30_total}} ({{categoryData.less_30_ratio_total}}%)</label>
+<label  ng-if="(categoryData.less_30_total === 0)" class="remove_underline">{{categoryData.less_30_total}} ({{categoryData.less_30_ratio_total}}%)</label>
+</td>
+</tr>
+
+
+<tr>
+<td class="ltcell">31 Days - 60 Days</td>
+<td>
+<label title="View Details" ng-click="viewcategorjoborders('60','A-Direct Customer/ Relationship')" ng-if="!(categoryData.a_60_less === 0)">{{categoryData.a_60_less}} ({{categoryData.a_60_less_ratio}}%)</label>
+<label  ng-if="(categoryData.a_60_less === 0)" class="remove_underline">{{categoryData.a_60_less}} ({{categoryData.a_60_less_ratio}}%)</label>
+</td>
+
+<td>
+<label title="View Details" ng-click="viewcategorjoborders('60','B-VMS Portal')" ng-if="!(categoryData.b_60_less === 0)">{{categoryData.b_60_less}} ({{categoryData.b_60_less_ratio}}%)</label>
+<label  ng-if="(categoryData.b_60_less === 0)" class="remove_underline">{{categoryData.b_60_less}} ({{categoryData.b_60_less_ratio}}%)</label>
+</td>
+<td>
+<label title="View Details" ng-click="viewcategorjoborders('60','C-Third Party')" ng-if="!(categoryData.c_60_less === 0)">{{categoryData.c_60_less}} ({{categoryData.c_60_less_ratio}}%)</label>
+<label  ng-if="(categoryData.c_60_less === 0)" class="remove_underline">{{categoryData.c_60_less}} ({{categoryData.c_60_less_ratio}}%)</label>
+</td>
+<td>
+<label title="View Details" ng-click="viewcategorjoborders('60','Not Specified')" ng-if="!(categoryData.n_60_less === 0)">{{categoryData.n_60_less}} ({{categoryData.n_60_less_ratio}}%)</label>
+<label  ng-if="(categoryData.n_60_less === 0)" class="remove_underline">{{categoryData.n_60_less}} ({{categoryData.n_60_less_ratio}}%)</label>
+</td>
+<td>
+<label title="View Details" ng-click="viewcategorjoborders('60','Total')" ng-if="!(categoryData.less_60_total === 0)">{{categoryData.less_60_total}} ({{categoryData.less_60_ratio_total}}%)</label>
+<label  ng-if="(categoryData.less_60_total === 0)" class="remove_underline">{{categoryData.less_60_total}} ({{categoryData.less_60_ratio_total}}%)</label>
+</td>
+
+</tr>
+
+
+<tr>
+<td class="ltcell">61 Days - 90 Days</td>
+
+<td><label title="View Details" ng-click="viewcategorjoborders('90','A-Direct Customer/ Relationship')" ng-if="!(categoryData.a_90_less === 0)">{{categoryData.a_90_less}} ({{categoryData.a_90_less_ratio}}%)</label>
+<label  ng-if="(categoryData.a_90_less === 0)" class="remove_underline">{{categoryData.a_90_less}} ({{categoryData.a_90_less_ratio}}%)</label>
+</td>
+<td>
+<label title="View Details" ng-click="viewcategorjoborders('90','B-VMS Portal')" ng-if="!(categoryData.b_90_less === 0)">{{categoryData.b_90_less}} ({{categoryData.b_90_less_ratio}}%)</label>
+<label  ng-if="(categoryData.b_90_less === 0)" class="remove_underline">{{categoryData.b_90_less}} ({{categoryData.b_90_less_ratio}}%)</label>
+</td>
+<td>
+<label title="View Details" ng-click="viewcategorjoborders('90','C-Third Party')" ng-if="!(categoryData.c_90_less === 0)">{{categoryData.c_90_less}} ({{categoryData.c_90_less_ratio}}%)</label>
+<label  ng-if="(categoryData.c_90_less === 0)" class="remove_underline">{{categoryData.c_90_less}} ({{categoryData.c_90_less_ratio}}%)</label>
+</td>
+<td>
+<label title="View Details" ng-click="viewcategorjoborders('90','Not Specified')" ng-if="!(categoryData.n_90_less === 0)">{{categoryData.n_90_less}} ({{categoryData.n_90_less_ratio}}%)</label>
+<label  ng-if="(categoryData.n_90_less === 0)" class="remove_underline">{{categoryData.n_90_less}} ({{categoryData.n_90_less_ratio}}%)</label>
+</td>
+<td>
+<label title="View Details" ng-click="viewcategorjoborders('90','Total')" ng-if="!(categoryData.less_90_total === 0)">{{categoryData.less_90_total}} ({{categoryData.less_90_ratio_total}}%)</label>
+<label  ng-if="(categoryData.less_90_total === 0)" class="remove_underline">{{categoryData.less_90_total}} ({{categoryData.less_90_ratio_total}}%)</label>
+</td>
+
+</tr>
+
+
+<tr>
+<td class="ltcell">90 Days & Above</td>
+
+
+<td><label title="View Details" ng-click="viewcategorjoborders('91','A-Direct Customer/ Relationship')" ng-if="!(categoryData.a_90_more === 0)">{{categoryData.a_90_more}} ({{categoryData.a_90_more_ratio}}%)</label>
+<label  ng-if="(categoryData.a_90_more === 0)" class="remove_underline">{{categoryData.a_90_more}} ({{categoryData.a_90_more_ratio}}%)</label>
+</td>
+<td>
+<label title="View Details" ng-click="viewcategorjoborders('91','B-VMS Portal')" ng-if="!(categoryData.b_90_more === 0)">{{categoryData.b_90_more}} ({{categoryData.b_90_more_ratio}}%)</label>
+<label  ng-if="(categoryData.b_90_more === 0)" class="remove_underline">{{categoryData.b_90_more}} ({{categoryData.b_90_more_ratio}}%)</label>
+</td>
+<td>
+<label title="View Details" ng-click="viewcategorjoborders('91','C-Third Party')" ng-if="!(categoryData.c_90_more === 0)">{{categoryData.c_90_more}} ({{categoryData.c_90_more_ratio}}%)</label>
+<label  ng-if="(categoryData.c_90_more === 0)" class="remove_underline">{{categoryData.c_90_more}} ({{categoryData.c_90_more_ratio}}%)</label>
+</td>
+<td>
+<label title="View Details" ng-click="viewcategorjoborders('91','Not Specified')" ng-if="!(categoryData.n_90_more === 0)">{{categoryData.n_90_more}} ({{categoryData.n_90_more_ratio}}%)</label>
+<label  ng-if="(categoryData.n_90_more === 0)" class="remove_underline">{{categoryData.n_90_more}} ({{categoryData.n_90_more_ratio}}%)</label>
+</td>
+<td>
+<label title="View Details" ng-click="viewcategorjoborders('91','Total')" ng-if="!(categoryData.more_90_total === 0)">{{categoryData.more_90_total}} ({{categoryData.more_90_ratio_total}}%)</label>
+<label  ng-if="(categoryData.more_90_total === 0)" class="remove_underline">{{categoryData.more_90_total}} ({{categoryData.more_90_ratio_total}}%)</label>
+</td>
+
+
+</tr>
+
+
+
+<tr>
+<td class="ltcell">Total</td>
+<td>{{categoryData.a_total}} ({{categoryData.a_count_ratio}}%)</td>
+<td>{{categoryData.b_total}} ({{categoryData.b_count_ratio}}%)</td>
+<td>{{categoryData.c_total}} ({{categoryData.c_count_ratio}}%)</td>
+<td>{{categoryData.n_total}} ({{categoryData.n_count_ratio}}%)</td>
+<td>{{categoryData.all_period_total}} (100%)</td>
+<td>&nbsp;</td>
+</tr>
+
+
+</tbody>
+
+
+
+</table>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+<b class="tblheading">Job Categories by BDM</b>
+
+				<div class="row fade-in-up table-scrollable">
+            
+	            <table class="customtable" id="viewCandidateTable" 
+	            	ng-repeat="dmsInfo in dmsInfo"
+	             bs-table-control="dmsInfo.dmsTableControl" ng-show="dmsInfoTable"  >
+		        <thead>
+		            <tr>
+		                <th style="width:25%;" data-field="dmName"  data-sortable="true"></th>
+		                <th style="width:20%;" data-field="a_count" data-sortable="true"  data-formatter="operateFormatter1"
+										data-events="operateEvents1">A-Direct Customer/ <br>Relationship</th>
+		                <th style="width:15%;" data-field="b_count" data-sortable="true"  data-formatter="operateFormatter"
+										data-events="operateEvents"></th>
+		                <th style="width:15%;" data-field="c_count" data-sortable="true"  data-formatter="operateFormatter2"
+										data-events="operateEvents2"></th>
+		                <th style="width:15%;"  data-field="n_count" data-sortable="true"  data-formatter="operateFormatter3"
+										data-events="operateEvents3"></th>
+		                <th style="width:15%;" data-field="n_count" data-sortable="true"  data-formatter="operateFormatter4"
+										data-events="operateEvents4"></th>
+		            </tr>
+		        </thead>
+		        <tbody>
+		           
+		        </tbody>
+	    		</table> 
+	    		</div>
+	    		
+	    		
+	    		
+</div>
+</form>
+
+
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	    		
+</div>
